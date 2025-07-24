@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.videoclub.entities.City;
 import com.videoclub.entities.Country;
 import com.videoclub.repositories.CityRepository;
+import com.videoclub.repositories.CountryRepository;
 
 @RestController
 public class CityService {
@@ -19,11 +20,27 @@ public class CityService {
 	@Autowired
 	CityRepository cityRepository;
 	
+	@Autowired
+	CountryRepository countryRepository;
+	
 	@GetMapping("/listCities")
-	public ResponseEntity<List<City>> hello() {
+	public ResponseEntity<List<City>> listCities() {
 		try {
 			List<City> city = new ArrayList<>();
 			city = cityRepository.findAll();
+			return new ResponseEntity<>(city, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/listCitiesByCountry")
+	public ResponseEntity<List<City>> listCitiesByCountry() {
+		try {
+			Country country = countryRepository.findByCountry("Spain");
+			int countryID = country.getCountry_id();
+			List<City> city = cityRepository.findByCountryId(countryID);
 			return new ResponseEntity<>(city, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);

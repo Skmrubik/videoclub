@@ -24,11 +24,22 @@ public class ListadoPaises {
 	CountryRepository countryRepository;
 	
 	@GetMapping("/listCountries")
-	public ResponseEntity<List<Country>> hello() {
+	public ResponseEntity<List<Country>> listCountries() {
 		try {
 			List<Country> countries = new ArrayList<Country>();
 			countries = countryRepository.findAll();
 			return new ResponseEntity<>(countries, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/listCountryByName")
+	public ResponseEntity<Country> listCountryByName() {
+		try {
+			Country country = countryRepository.findByCountry("Spain");
+			return new ResponseEntity<>(country, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
