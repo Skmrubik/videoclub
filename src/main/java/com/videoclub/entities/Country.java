@@ -1,10 +1,13 @@
 package com.videoclub.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -12,14 +15,20 @@ import jakarta.persistence.Table;
 public class Country {
 	@Id
 	private int country_id;
+	
 	@Column(name = "country")
 	private String country;
+	
 	@Column(name = "last_update")
 	private Date last_update;
 	
+	@OneToMany(mappedBy = "country_id")
+	private List<City> cities;
+	
 	public Country() {
-		
+		cities = new ArrayList<>();
 	}
+	
 	public Country(int country_id, String country, Date last_update) {
 		super();
 		this.country_id = country_id;

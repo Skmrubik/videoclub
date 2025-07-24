@@ -5,22 +5,25 @@ import java.util.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "city")
 public class City {
 	@Id
-	int city_id;
+	private int city_id;
 	
 	@Column(name = "city")
-	String city;
+	private String city;
 	
-	@Column(name = "country_id")
-	int country_id;
+	@JoinColumn(name = "country_id")
+	@ManyToOne
+	private Country country_id;
 	
 	@Column(name = "last_update")
-	Date last_update;
+	private Date last_update;
 
 	public City() {
 	}
@@ -41,11 +44,11 @@ public class City {
 		this.city = city;
 	}
 
-	public int getCountry_id() {
+	public Country getCountry_id() {
 		return country_id;
 	}
 
-	public void setCountry_id(int country_id) {
+	public void setCountry_id(Country country_id) {
 		this.country_id = country_id;
 	}
 
