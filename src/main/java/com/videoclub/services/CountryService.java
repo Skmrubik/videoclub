@@ -9,13 +9,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.videoclub.entities.Country;
 import com.videoclub.repositories.CountryRepository;
 
 @RestController
-public class ListadoPaises {
+public class CountryService {
 	
 	@Autowired
     private JdbcTemplate jdbcTemplate;
@@ -36,10 +37,10 @@ public class ListadoPaises {
 	}
 	
 	@GetMapping("/listCountryByName")
-	public ResponseEntity<Country> listCountryByName() {
+	public ResponseEntity<Country> getCountryByName(@RequestParam String country) {
 		try {
-			Country country = countryRepository.findByCountry("Spain");
-			return new ResponseEntity<>(country, HttpStatus.OK);
+			Country countryObj = countryRepository.findByCountry(country);
+			return new ResponseEntity<>(countryObj, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.videoclub.entities.City;
@@ -36,10 +37,10 @@ public class CityService {
 	}
 	
 	@GetMapping("/listCitiesByCountry")
-	public ResponseEntity<List<City>> listCitiesByCountry() {
+	public ResponseEntity<List<City>> listCitiesByCountry(@RequestParam String country) {
 		try {
-			Country country = countryRepository.findByCountry("Spain");
-			int countryID = country.getCountry_id();
+			Country countryObj = countryRepository.findByCountry(country);
+			int countryID = countryObj.getCountry_id();
 			List<City> city = cityRepository.findByCountryId(countryID);
 			return new ResponseEntity<>(city, HttpStatus.OK);
 		} catch (Exception e) {
