@@ -1,12 +1,15 @@
 package com.videoclub.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -44,7 +47,11 @@ public class Customer {
 	@Column(name = "active")
 	private Integer active;
 
+	@OneToMany(mappedBy="customer_id")
+	private List<Customer> customers;
+	
 	public Customer() {
+		customers = new ArrayList<>();
 	}
 
 	public int getCustomer_id() {
