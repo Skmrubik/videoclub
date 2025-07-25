@@ -19,8 +19,9 @@ public class Rental {
 	@Column(name = "rental_date")
 	private Date rentalDate;
 	
-	@Column(name = "inventory_id")
-	private Integer inventoryId;
+	@JoinColumn(name = "inventory_id")
+	@ManyToOne
+	private Inventory inventoryId;
 	
 	@JoinColumn(name = "customer_id")
 	@ManyToOne
@@ -54,11 +55,11 @@ public class Rental {
 		this.rentalDate = rentalDate;
 	}
 
-	public Integer getInventoryId() {
+	public Inventory getInventoryId() {
 		return inventoryId;
 	}
 
-	public void setInventoryId(Integer inventoryId) {
+	public void setInventoryId(Inventory inventoryId) {
 		this.inventoryId = inventoryId;
 	}
 
