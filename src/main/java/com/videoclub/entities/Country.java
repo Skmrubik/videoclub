@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 @Table(name = "country")
 public class Country {
 	@Id
-	private int country_id;
+	private Integer country_id;
 	
 	@Column(name = "country")
 	private String country;
@@ -22,7 +22,7 @@ public class Country {
 	@Column(name = "last_update")
 	private Date last_update;
 	
-	@OneToMany(mappedBy = "country_id")
+	@OneToMany(mappedBy = "countryId")
 	private List<City> cities;
 	
 	public Country() {
@@ -36,11 +36,11 @@ public class Country {
 		this.last_update = last_update;
 	}
 	
-	public int getCountry_id() {
+	public Integer getCountry_id() {
 		return country_id;
 	}
 	
-	public void setCountry_id(int country_id) {
+	public void setCountry_id(Integer country_id) {
 		this.country_id = country_id;
 	}
 	

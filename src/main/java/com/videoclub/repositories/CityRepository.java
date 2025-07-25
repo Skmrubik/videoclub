@@ -13,6 +13,6 @@ import com.videoclub.entities.Country;
 public interface CityRepository extends JpaRepository<City, Integer>{
 	
 	@Query(value = "select * from City c where country_id = ?1", nativeQuery = true)
-	List<City> findByCountryId(int country);
+	List<City> findByCountryId(Integer country);
 	
 }

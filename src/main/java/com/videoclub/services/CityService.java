@@ -40,7 +40,7 @@ public class CityService {
 	public ResponseEntity<List<City>> listCitiesByCountry(@RequestParam String country) {
 		try {
 			Country countryObj = countryRepository.findByCountry(country);
-			int countryID = countryObj.getCountry_id();
+			Integer countryID = countryObj.getCountry_id();
 			List<City> city = cityRepository.findByCountryId(countryID);
 			return new ResponseEntity<>(city, HttpStatus.OK);
 		} catch (Exception e) {

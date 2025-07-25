@@ -1,38 +1,45 @@
 package com.videoclub.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "city")
 public class City {
 	@Id
-	private int city_id;
+	private Integer city_id;
 	
 	@Column(name = "city")
 	private String city;
 	
 	@JoinColumn(name = "country_id")
 	@ManyToOne
-	private Country country_id;
+	private Country countryId;
 	
 	@Column(name = "last_update")
 	private Date last_update;
+	
+	@OneToMany(mappedBy = "cityId")
+	List<Address> listAddress;
 
 	public City() {
+		listAddress = new ArrayList<>();
 	}
 
-	public int getCity_id() {
+	public Integer getCity_id() {
 		return city_id;
 	}
 
-	public void setCity_id(int city_id) {
+	public void setCity_id(Integer city_id) {
 		this.city_id = city_id;
 	}
 
@@ -45,11 +52,11 @@ public class City {
 	}
 
 	public Country getCountry_id() {
-		return country_id;
+		return countryId;
 	}
 
 	public void setCountry_id(Country country_id) {
-		this.country_id = country_id;
+		this.countryId = country_id;
 	}
 
 	public Date getLast_update() {
