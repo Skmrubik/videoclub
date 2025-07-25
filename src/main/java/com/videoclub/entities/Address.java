@@ -44,8 +44,12 @@ public class Address {
 	@OneToMany(mappedBy="addressId")
 	private List<Store> stores;
 
+	@OneToMany(mappedBy="addressId")
+	private List<Customer> customers;
+	
 	public Address() {
 		stores = new ArrayList<>();
+		customers = new ArrayList<>();
 	}
 
 	public int getAddress_id() {
