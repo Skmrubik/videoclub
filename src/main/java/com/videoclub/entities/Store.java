@@ -2,11 +2,16 @@ package com.videoclub.entities;
 
 import java.util.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,8 +20,9 @@ public class Store {
 	@Id
 	private int store_id;
 	
-	@Column(name= "manager_staff_id")
-	private Integer managerStaffId;
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "manager_staff_id", referencedColumnName = "staff_id")
+	private Staff managerStaffId;
 	
 	@JoinColumn(name= "address_id")
 	@ManyToOne
@@ -36,11 +42,11 @@ public class Store {
 		this.store_id = store_id;
 	}
 
-	public Integer getManagerStaffId() {
+	public Staff getManagerStaffId() {
 		return managerStaffId;
 	}
 
-	public void setManagerStaffId(Integer managerStaffId) {
+	public void setManagerStaffId(Staff managerStaffId) {
 		this.managerStaffId = managerStaffId;
 	}
 

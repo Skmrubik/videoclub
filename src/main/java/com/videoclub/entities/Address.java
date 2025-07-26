@@ -51,12 +51,24 @@ public class Address {
 	@JsonIgnore
 	private List<Customer> customers;
 	
+	@OneToMany(mappedBy="addressId")
+	@JsonIgnore
+	private List<Staff> listStaff;
+	
 	public Address() {
 		stores = new ArrayList<>();
 		customers = new ArrayList<>();
+		listStaff = new ArrayList<>();
 	}
 
-	
+	public List<Staff> getListStaff() {
+		return listStaff;
+	}
+
+	public void setListStaff(List<Staff> listStaff) {
+		this.listStaff = listStaff;
+	}
+
 	public List<Store> getStores() {
 		return stores;
 	}
