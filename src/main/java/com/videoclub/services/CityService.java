@@ -41,7 +41,8 @@ public class CityService {
 		try {
 			Country countryObj = countryRepository.findByCountry(country);
 			Integer countryID = countryObj.getCountry_id();
-			List<City> city = cityRepository.findByCountryId(countryID);
+			//List<City> city = cityRepository.findByCountryId(countryID);
+			List<City> city = countryObj.getCities();
 			return new ResponseEntity<>(city, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);

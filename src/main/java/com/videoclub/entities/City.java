@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -29,11 +31,23 @@ public class City {
 	private Date last_update;
 	
 	@OneToMany(mappedBy = "cityId")
+	@JsonIgnore
 	List<Address> listAddress;
 
 	public City() {
 		listAddress = new ArrayList<>();
 	}
+
+	
+	public List<Address> getListAddress() {
+		return listAddress;
+	}
+
+
+	public void setListAddress(List<Address> listAddress) {
+		this.listAddress = listAddress;
+	}
+
 
 	public Integer getCity_id() {
 		return city_id;

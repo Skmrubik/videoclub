@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -27,10 +29,19 @@ public class Inventory {
 	private Date lastUpdate;
 	
 	@OneToMany(mappedBy="inventoryId")
+	@JsonIgnore
 	private List<Rental> rentals;
 
 	public Inventory() {
 		rentals = new ArrayList<>();
+	}
+
+	public List<Rental> getRentals() {
+		return rentals;
+	}
+
+	public void setRentals(List<Rental> rentals) {
+		this.rentals = rentals;
 	}
 
 	public int getInventory_id() {

@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "country")
@@ -23,6 +26,7 @@ public class Country {
 	private Date last_update;
 	
 	@OneToMany(mappedBy = "countryId")
+	@JsonIgnore
 	private List<City> cities;
 	
 	public Country() {
@@ -36,6 +40,14 @@ public class Country {
 		this.last_update = last_update;
 	}
 	
+	public List<City> getCities() {
+		return cities;
+	}
+
+	public void setCities(List<City> cities) {
+		this.cities = cities;
+	}
+
 	public Integer getCountry_id() {
 		return country_id;
 	}

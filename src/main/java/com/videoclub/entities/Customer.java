@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -47,12 +49,40 @@ public class Customer {
 	@Column(name = "active")
 	private Integer active;
 
-	@OneToMany(mappedBy="customer_id")
-	private List<Customer> customers;
+	@OneToMany(mappedBy="customerId")
+	@JsonIgnore
+	private List<Rental> rentals;
+	
+	@OneToMany(mappedBy="customerId")
+	@JsonIgnore
+	private List<Payment> payments;
+	
 	
 	public Customer() {
-		customers = new ArrayList<>();
+		rentals = new ArrayList<>();
+		payments = new ArrayList<>();
 	}
+
+	
+	public List<Rental> getRentals() {
+		return rentals;
+	}
+
+
+	public void setRentals(List<Rental> rentals) {
+		this.rentals = rentals;
+	}
+
+
+	public List<Payment> getPayments() {
+		return payments;
+	}
+
+
+	public void setPayments(List<Payment> payments) {
+		this.payments = payments;
+	}
+
 
 	public int getCustomer_id() {
 		return customer_id;
