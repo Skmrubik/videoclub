@@ -23,7 +23,7 @@ public class Country {
 	private String country;
 	
 	@Column(name = "last_update")
-	private Date last_update;
+	private Date lastUpdate;
 	
 	@OneToMany(mappedBy = "countryId")
 	@JsonIgnore
@@ -37,7 +37,7 @@ public class Country {
 		super();
 		this.country_id = country_id;
 		this.country = country;
-		this.last_update = last_update;
+		this.lastUpdate = last_update;
 	}
 	
 	public List<City> getCities() {
@@ -63,12 +63,13 @@ public class Country {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	
-	public Date getLast_update() {
-		return last_update;
+
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 	
-	public void setLast_update(Date last_update) {
-		this.last_update = last_update;
-	}
 }

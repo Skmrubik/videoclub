@@ -28,7 +28,7 @@ public class City {
 	private Country countryId;
 	
 	@Column(name = "last_update")
-	private Date last_update;
+	private Date lastUpdate;
 	
 	@OneToMany(mappedBy = "cityId")
 	@JsonIgnore
@@ -65,20 +65,20 @@ public class City {
 		this.city = city;
 	}
 
-	public Country getCountry_id() {
+	public Country getCountryId() {
 		return countryId;
 	}
 
-	public void setCountry_id(Country country_id) {
-		this.countryId = country_id;
+	public void setCountryId(Country countryId) {
+		this.countryId = countryId;
+	}
+	
+	public Date getLastUpdate() {
+		return lastUpdate;
 	}
 
-	public Date getLast_update() {
-		return last_update;
-	}
-
-	public void setLast_update(Date last_update) {
-		this.last_update = last_update;
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 	
 }
