@@ -2,11 +2,13 @@ package com.videoclub.entities;
 
 import java.util.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,8 +32,9 @@ public class Rental {
 	@Column(name = "return_date")
 	private Date returnDate;
 	
-	@Column(name = "staff_id")
-	private Integer staffId;
+	@JoinColumn(name = "staff_id")
+	@ManyToOne
+	private Staff staffId;
 	
 	@Column(name = "last_update")
 	private Date lastUpdate;
@@ -79,11 +82,11 @@ public class Rental {
 		this.returnDate = returnDate;
 	}
 
-	public Integer getStaffId() {
+	public Staff getStaffId() {
 		return staffId;
 	}
 
-	public void setStaffId(Integer staffId) {
+	public void setStaffId(Staff staffId) {
 		this.staffId = staffId;
 	}
 
