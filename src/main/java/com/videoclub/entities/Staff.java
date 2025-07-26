@@ -51,6 +51,7 @@ public class Staff {
     private Store store;
 	
 	@OneToMany(mappedBy = "staffId")
+	@JsonIgnore
 	private List<Rental> rentals;
 	
 	public Staff() {

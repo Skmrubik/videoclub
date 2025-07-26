@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -19,8 +21,9 @@ public class Inventory {
 	@Id
 	private int inventory_id;
 	
-	@Column(name="film_id")
-	private Integer filmId;
+	@JoinColumn(name="film_id")
+	@ManyToOne
+	private Film filmId;
 	
 	@Column(name="store_id")
 	private Integer storeId;
@@ -52,11 +55,11 @@ public class Inventory {
 		this.inventory_id = inventory_id;
 	}
 
-	public Integer getFilmId() {
+	public Film getFilmId() {
 		return filmId;
 	}
 
-	public void setFilmId(Integer filmId) {
+	public void setFilmId(Film filmId) {
 		this.filmId = filmId;
 	}
 
