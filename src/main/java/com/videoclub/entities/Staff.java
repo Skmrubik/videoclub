@@ -48,9 +48,6 @@ public class Staff {
 	
 	@Column(name="last_update")
 	private Date lastUpdate;
-
-	@OneToOne(mappedBy = "managerStaffId")
-    private Store store;
 	
 	@OneToMany(mappedBy = "staffId")
 	@JsonIgnore

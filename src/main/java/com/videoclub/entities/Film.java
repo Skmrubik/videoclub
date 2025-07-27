@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -28,8 +30,9 @@ public class Film {
 	@Column(name="release_year")
 	private Integer releaseYear;
 	
-	@Column(name="language_id")
-	private Integer languageId;
+	@ManyToOne
+	@JoinColumn(name="language_id")
+	private Language languageId;
 	
 	@Column(name="rental_duration")
 	private Integer rentalDuration;
@@ -98,11 +101,11 @@ public class Film {
 		this.releaseYear = releaseYear;
 	}
 
-	public Integer getLanguageId() {
+	public Language getLanguageId() {
 		return languageId;
 	}
 
-	public void setLanguageId(Integer languageId) {
+	public void setLanguageId(Language languageId) {
 		this.languageId = languageId;
 	}
 

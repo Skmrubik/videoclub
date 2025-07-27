@@ -22,11 +22,11 @@ public class Rental {
 	private Date rentalDate;
 	
 	@JoinColumn(name = "inventory_id")
-	@ManyToOne
+	@OneToOne
 	private Inventory inventoryId;
 	
 	@JoinColumn(name = "customer_id")
-	@ManyToOne
+	@OneToOne
 	private Customer customerId;
 	
 	@Column(name = "return_date")

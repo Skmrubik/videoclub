@@ -20,7 +20,7 @@ public class Store {
 	@Id
 	private int store_id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
     @JoinColumn(name = "manager_staff_id", referencedColumnName = "staff_id")
 	private Staff managerStaffId;
 	

@@ -48,10 +48,6 @@ public class Customer {
 	
 	@Column(name = "active")
 	private Integer active;
-
-	@OneToMany(mappedBy="customerId")
-	@JsonIgnore
-	private List<Rental> rentals;
 	
 	@OneToMany(mappedBy="customerId")
 	@JsonIgnore
@@ -59,20 +55,8 @@ public class Customer {
 	
 	
 	public Customer() {
-		rentals = new ArrayList<>();
 		payments = new ArrayList<>();
 	}
-
-	
-	public List<Rental> getRentals() {
-		return rentals;
-	}
-
-
-	public void setRentals(List<Rental> rentals) {
-		this.rentals = rentals;
-	}
-
 
 	public List<Payment> getPayments() {
 		return payments;

@@ -30,21 +30,8 @@ public class Inventory {
 	
 	@Column(name="last_update")
 	private Date lastUpdate;
-	
-	@OneToMany(mappedBy="inventoryId")
-	@JsonIgnore
-	private List<Rental> rentals;
 
 	public Inventory() {
-		rentals = new ArrayList<>();
-	}
-
-	public List<Rental> getRentals() {
-		return rentals;
-	}
-
-	public void setRentals(List<Rental> rentals) {
-		this.rentals = rentals;
 	}
 
 	public int getInventory_id() {
