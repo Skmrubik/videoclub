@@ -18,14 +18,14 @@ class FilmActorId implements Serializable {
 
     // Los nombres de los atributos aquí DEBEN coincidir
     // con los nombres de los atributos @Id en la entidad FilmActor
-    private int actorId; 
+    private Actor actorId; 
     private Film filmId;
 
     // Constructor por defecto es OBLIGATORIO para JPA
     public FilmActorId() {
     }
 
-    public FilmActorId(int actorId, Film filmId) {
+    public FilmActorId(Actor actorId, Film filmId) {
         this.actorId = actorId;
         this.filmId = filmId;
     }
@@ -48,11 +48,11 @@ class FilmActorId implements Serializable {
     }
 
     // Getters y Setters (opcionales para una clase de ID, pero buena práctica)
-    public int getActorId() {
+    public Actor getActorId() {
         return actorId;
     }
 
-    public void setActorId(int actorId) {
+    public void setActorId(Actor actorId) {
         this.actorId = actorId;
     }
 
@@ -71,7 +71,8 @@ class FilmActorId implements Serializable {
 public class FilmActor {
 	@Id
 	@JoinColumn(name = "actor_id")
-	private int actorId;
+	@OneToOne
+	private Actor actorId;
 
     @JoinColumn(name = "film_id")
 	@Id
@@ -84,11 +85,11 @@ public class FilmActor {
 	public FilmActor() {
 	}
 
-	public int getActorId() {
+	public Actor getActorId() {
 		return actorId;
 	}
 
-	public void setActorId(int actorId) {
+	public void setActorId(Actor actorId) {
 		this.actorId = actorId;
 	}
 
