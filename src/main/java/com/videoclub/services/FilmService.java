@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.videoclub.controllers.FilmController;
 import com.videoclub.dto.FilmCategoryDTO;
 import com.videoclub.entities.Film;
+import com.videoclub.entities.FilmCategory;
 import com.videoclub.repositories.FilmRepository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Tuple;
 
 @RestController
@@ -22,6 +26,9 @@ public class FilmService {
 	
 	@Autowired
 	FilmRepository filmRepository;
+	
+	@PersistenceContext
+	private EntityManager em;
 
 	@GetMapping("/listFilms")
 	public ResponseEntity<List<Film>> listFilms() {
@@ -35,13 +42,12 @@ public class FilmService {
 		}
 	}
 	
-	@GetMapping("/listFilms/{num}")
-	public ResponseEntity<List<Film>> listFilmsNFirst(@PathVariable(required=false,name="num") String num) {
+	@GetMapping("/listFilmsSecond")
+	public ResponseEntity<List<FilmCategory>> listFilms2() {
 		try {
-			int tam = Integer.parseInt(num);
-			List<Film> listFilms = new ArrayList<>();
-			listFilms = filmRepository.findAll();
-			return new ResponseEntity<>(listFilms.subList(0, tam), HttpStatus.OK);
+			FilmController filmC = new FilmController(filmRepository, em);
+			List<FilmCategory> films = filmC.filterFilmsSelect();
+			return new ResponseEntity<>(films, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

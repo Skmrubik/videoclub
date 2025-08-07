@@ -16,7 +16,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
 	
 	List<Film> findByLengthBetween(int min, int max);
 	
-	@Query(value = "select f.film_id, f.title, f.rental_rate, f.length, f.replacement_cost, c.name \r\n"
+	@Query(value = "select f.film_id, f.description, f.title, f.rental_rate, f.length, f.replacement_cost, c.name \r\n"
 			+ "from film f inner join film_category f_c on f.film_id = f_c.film_id \r\n"
 			+ "inner join category c on f_c.category_id = c.category_id", nativeQuery = true)
 	List<FilmCategoryDTO> joinCategories();

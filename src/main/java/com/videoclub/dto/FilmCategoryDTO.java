@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 public class FilmCategoryDTO {
 	int film_id;
 	String title;
+	String description;
 	BigDecimal rentalRate;
 	Short length;
 	BigDecimal replacementCost;
@@ -14,9 +15,10 @@ public class FilmCategoryDTO {
 	public FilmCategoryDTO() {
 	}
 
-	public FilmCategoryDTO(int film_id,String title, BigDecimal rentalRate, Short length, BigDecimal replacementCost,
+	public FilmCategoryDTO(int film_id, String description, String title, BigDecimal rentalRate, Short length, BigDecimal replacementCost,
 			String category) {
 		this.film_id = film_id;
+		this.description = description;
 		this.title = title;
 		this.rentalRate = rentalRate;
 		this.length = length;
@@ -31,6 +33,14 @@ public class FilmCategoryDTO {
 
 	public void setFilm_id(int film_id) {
 		this.film_id = film_id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getTitle() {

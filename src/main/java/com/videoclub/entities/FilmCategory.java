@@ -74,6 +74,14 @@ public class FilmCategory {
 	public FilmCategory() {
 	}
 
+	
+	public FilmCategory(Film film_id, Category categoryId, Date lastUpdate) {
+		this.film_id = film_id;
+		this.categoryId = categoryId;
+		this.lastUpdate = lastUpdate;
+	}
+
+
 	public Film getFilm_id() {
 		return film_id;
 	}
