@@ -41,14 +41,17 @@ public class FilmController {
 		return lista;
 	}
 	
-	public List<FilmCategory> filterFilmsSelect() {
-		List<Film> listFilms = filmRepository.findAll();
+	public List<FilmCategory> filterFilmsSelect(int lowValue, int highValue) {
+		//List<Film> listFilms = filmRepository.findAll();
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<FilmCategory> criteriaQ = cb.createQuery(FilmCategory.class);
 		Root<FilmCategory> root = criteriaQ.from(FilmCategory.class);
 		Join<FilmCategory, Film> filmCategory = root.join("film_id");
-		criteriaQ.multiselect(root.get("film_id"),filmCategory.get("title"));
+		Join<FilmCategory, Category> filmJoinCategory = root.join("categoryId");
+		//criteriaQ.multiselect(root.get("film_id"),filmCategory.get("title"));
 		// Join<FilmCategory, Category> category = root.join("categoryId");
+		criteriaQ.where(cb.between(filmCategory.get("length"), lowValue,highValue));
+		//criteriaQ.where(cb.equal(filmJoinCategory.get("name"), "Horror"));
 		List<FilmCategory> lista =  em.createQuery(criteriaQ).getResultList();
 		return lista;
 	}

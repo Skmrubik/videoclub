@@ -42,11 +42,13 @@ public class FilmService {
 		}
 	}
 	
-	@GetMapping("/listFilmsSecond")
-	public ResponseEntity<List<FilmCategory>> listFilms2() {
+	@GetMapping("/listFilmsFilter")
+	public ResponseEntity<List<FilmCategory>> listFilms2(@RequestParam String minDuration, @RequestParam String maxDuration) {
 		try {
+			int min = Integer.parseInt(minDuration);
+			int max = Integer.parseInt(maxDuration);
 			FilmController filmC = new FilmController(filmRepository, em);
-			List<FilmCategory> films = filmC.filterFilmsSelect();
+			List<FilmCategory> films = filmC.filterFilmsSelect(min, max);
 			return new ResponseEntity<>(films, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
