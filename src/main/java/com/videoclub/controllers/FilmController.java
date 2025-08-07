@@ -16,6 +16,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 public class FilmController {
@@ -41,7 +42,7 @@ public class FilmController {
 		return lista;
 	}
 	
-	public List<FilmCategory> filterFilmsSelect(int lowValue, int highValue) {
+	public List<FilmCategory> filterFilmsSelect(int lowValue, int highValue, int category) {
 		//List<Film> listFilms = filmRepository.findAll();
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<FilmCategory> criteriaQ = cb.createQuery(FilmCategory.class);
@@ -50,8 +51,13 @@ public class FilmController {
 		Join<FilmCategory, Category> filmJoinCategory = root.join("categoryId");
 		//criteriaQ.multiselect(root.get("film_id"),filmCategory.get("title"));
 		// Join<FilmCategory, Category> category = root.join("categoryId");
-		criteriaQ.where(cb.between(filmCategory.get("length"), lowValue,highValue));
-		//criteriaQ.where(cb.equal(filmJoinCategory.get("name"), "Horror"));
+		Predicate predicate = cb.between(filmCategory.get("length"), lowValue,highValue);
+		if (category != 0) {
+			predicate = cb.and(predicate, cb.equal(filmJoinCategory.get("category_id"), category));
+		}
+		criteriaQ.where(predicate);
+//		criteriaQ.where(cb.between(filmCategory.get("length"), lowValue,highValue));
+//		criteriaQ.where(cb.equal(filmJoinCategory.get("category_id"), category));
 		List<FilmCategory> lista =  em.createQuery(criteriaQ).getResultList();
 		return lista;
 	}
