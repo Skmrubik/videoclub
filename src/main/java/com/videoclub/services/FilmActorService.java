@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.videoclub.entities.Actor;
 import com.videoclub.entities.FilmActor;
 import com.videoclub.repositories.FilmActorRepository;
 
@@ -31,10 +32,10 @@ public class FilmActorService {
 	}
 	
 	@GetMapping("/listActorsOfFilms")
-	public ResponseEntity<List<FilmActor>> listFilmActors(@RequestParam String idFilm) {
+	public ResponseEntity<List<Actor>> listFilmActors(@RequestParam String idFilm) {
 		try {
 			int id = Integer.parseInt(idFilm);
-			List<FilmActor> listFilmActors = new ArrayList<>();
+			List<Actor> listFilmActors = new ArrayList<>();
 			listFilmActors = filmActorRepository.getActorsOfFilm(id);
 			return new ResponseEntity<>(listFilmActors, HttpStatus.OK);
 		} catch (Exception e) {
