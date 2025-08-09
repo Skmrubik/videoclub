@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.videoclub.controllers.FilmController;
 import com.videoclub.dto.FilmCategoryDTO;
+import com.videoclub.dto.FilmPagination;
 import com.videoclub.entities.Film;
 import com.videoclub.entities.FilmCategory;
 import com.videoclub.repositories.FilmRepository;
@@ -43,8 +44,8 @@ public class FilmService {
 	}
 	
 	@GetMapping("/listFilmsFilter")
-	public ResponseEntity<List<FilmCategory>> listFilms2(@RequestParam String minDuration, @RequestParam String maxDuration, 
-			@RequestParam String category, @RequestParam String actorId) {
+	public ResponseEntity<FilmPagination> listFilms2(@RequestParam String minDuration, @RequestParam String maxDuration, 
+			@RequestParam String category, @RequestParam String actorId, @RequestParam String page) {
 		try {
 			int min = Integer.parseInt(minDuration);
 			int max = Integer.parseInt(maxDuration);
@@ -57,7 +58,13 @@ public class FilmService {
 			}
 			FilmController filmC = new FilmController(filmRepository, em);
 			List<FilmCategory> films = filmC.filterFilmsSelect(min, max, catInt, actId);
-			return new ResponseEntity<>(films, HttpStatus.OK);
+			int currentPage = Integer.parseInt(page);								
+			int totalPages = (films.size()/10)+1;
+			int tamPage = 10;
+			int firstFilm = (currentPage-1)*tamPage;
+			int lastFilm = currentPage==totalPages ? ((currentPage-1)*tamPage)+films.size()%10 : (currentPage)*tamPage;
+			FilmPagination filmPagination = new FilmPagination(totalPages, currentPage, films.subList(firstFilm, lastFilm));
+			return new ResponseEntity<>(filmPagination, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
