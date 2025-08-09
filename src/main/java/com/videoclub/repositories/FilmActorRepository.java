@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.videoclub.entities.Actor;
+import com.videoclub.entities.Film;
 import com.videoclub.entities.FilmActor;
 import com.videoclub.entities.primarykeys.FilmActorId;
 
@@ -15,4 +16,7 @@ public interface FilmActorRepository extends JpaRepository<FilmActor, FilmActorI
 
 	@Query("select f_a.actorId from FilmActor f_a where f_a.filmId.film_id = ?1")
 	List<Actor> getActorsOfFilm(Integer idFilm);
+	
+	@Query("select f_a.filmId from FilmActor f_a where f_a.actorId.actor_id = ?1")
+	List<Film> getFilmsOfActor(Integer idActor);
 }

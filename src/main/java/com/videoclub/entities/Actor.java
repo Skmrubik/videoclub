@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 public class Actor {
 	
 	@Id
+	@Column(name="actor_id")
 	private int actor_id;
 	
 	@Column(name="first_name")
