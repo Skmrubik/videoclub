@@ -21,6 +21,9 @@ public class Film {
 	@Id
 	private int film_id;
 	
+	@OneToMany(mappedBy = "filmId")
+    private List<FilmActor> actors;
+	
 	@Column(name="title")
 	private String title;
 	
@@ -67,6 +70,7 @@ public class Film {
 
 	public Film() {
 		inventories = new ArrayList<>();
+		actors = new ArrayList<>();
 	}
 
 	public int getFilm_id() {
