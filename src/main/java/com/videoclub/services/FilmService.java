@@ -58,9 +58,9 @@ public class FilmService {
 			}
 			FilmController filmC = new FilmController(filmRepository, em);
 			List<FilmCategory> films = filmC.filterFilmsSelect(min, max, catInt, actId);
-			int currentPage = Integer.parseInt(page);								
-			int totalPages = (films.size()/10)+1;
-			int tamPage = 10;
+			int currentPage = Integer.parseInt(page);	
+			int tamPage = 15;
+			int totalPages = (films.size()/tamPage)+1;
 			int firstFilm = (currentPage-1)*tamPage;
 			int lastFilm = currentPage==totalPages ? ((currentPage-1)*tamPage)+films.size()%10 : (currentPage)*tamPage;
 			FilmPagination filmPagination = new FilmPagination(totalPages, currentPage, films.subList(firstFilm, lastFilm));

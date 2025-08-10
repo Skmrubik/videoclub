@@ -22,6 +22,7 @@ public class Film {
 	private int film_id;
 	
 	@OneToMany(mappedBy = "filmId")
+	@JsonIgnore
     private List<FilmActor> actors;
 	
 	@Column(name="title")

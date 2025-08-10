@@ -45,25 +45,22 @@ public class FilmController {
 	}
 	
 	public List<FilmCategory> filterFilmsSelect(int lowValue, int highValue, int category, int actorId) {
-		//List<Film> listFilms = filmRepository.findAll();
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<FilmCategory> criteriaQ = cb.createQuery(FilmCategory.class);
 		Root<FilmCategory> root = criteriaQ.from(FilmCategory.class);
 		Join<FilmCategory, Film> filmCategory = root.join("film_id");
 		Join<Film, FilmActor> filmJoinFilmActor = filmCategory.join("actors");
-		Join<FilmCategory, Category> filmJoinCategory = root.join("categoryId");
-		//criteriaQ.multiselect(root.get("film_id"),filmCategory.get("title"));
-		// Join<FilmCategory, Category> category = root.join("categoryId");
-		Predicate predicate = cb.between(filmCategory.get("length"), lowValue,highValue);
+
+		Predicate predicate = cb.between(root.get("film_id").get("length"), Integer.valueOf(lowValue), Integer.valueOf(highValue));
+		//Predicate predicate = cb.and(cb.greaterThanOrEqualTo(filmCategory.get("length"), lowValue),cb.lessThanOrEqualTo(filmCategory.get("length"), highValue));
 		if (category != 0) {
-			predicate = cb.and(predicate, cb.equal(filmJoinCategory.get("category_id"), category));
+			predicate = cb.and(predicate, cb.equal(root.get("categoryId").get("category_id"), category));
 		}
 		if (actorId != 0) {
 			predicate = cb.and(predicate, cb.equal(filmJoinFilmActor.get("actorId").get("actor_id"), actorId));
 		}
 		criteriaQ.where(predicate);
-//		criteriaQ.where(cb.between(filmCategory.get("length"), lowValue,highValue));
-//		criteriaQ.where(cb.equal(filmJoinCategory.get("category_id"), category));
+
 		List<FilmCategory> lista =  em.createQuery(criteriaQ).getResultList();
 		return lista;
 	}
