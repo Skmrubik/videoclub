@@ -48,18 +48,19 @@ public class FilmController {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<FilmCategory> criteriaQ = cb.createQuery(FilmCategory.class);
 		Root<FilmCategory> root = criteriaQ.from(FilmCategory.class);
-		Join<FilmCategory, Film> filmCategory = root.join("film_id");
+		Join<FilmCategory, Film> filmCategory = root.join("film_id", JoinType.INNER);
 		Join<Film, FilmActor> filmJoinFilmActor = filmCategory.join("actors");
-
-		Predicate predicate = cb.between(root.get("film_id").get("length"), Integer.valueOf(lowValue), Integer.valueOf(highValue));
-		//Predicate predicate = cb.and(cb.greaterThanOrEqualTo(filmCategory.get("length"), lowValue),cb.lessThanOrEqualTo(filmCategory.get("length"), highValue));
+		
+		List<Predicate> predicates = new ArrayList<>();
+		predicates.add(cb.between(root.get("film_id").get("length"), Integer.valueOf(lowValue), Integer.valueOf(highValue)));
 		if (category != 0) {
-			predicate = cb.and(predicate, cb.equal(root.get("categoryId").get("category_id"), category));
+			predicates.add(cb.equal(root.get("categoryId").get("category_id"), Integer.valueOf(category)));
 		}
 		if (actorId != 0) {
-			predicate = cb.and(predicate, cb.equal(filmJoinFilmActor.get("actorId").get("actor_id"), actorId));
+			predicates.add(cb.equal(filmJoinFilmActor.get("actorId").get("actor_id"), actorId));
 		}
-		criteriaQ.where(predicate);
+		Predicate[] predicatesArray = predicates.toArray(new Predicate[0]);
+		criteriaQ.where(predicatesArray);
 
 		List<FilmCategory> lista =  em.createQuery(criteriaQ).getResultList();
 		return lista;

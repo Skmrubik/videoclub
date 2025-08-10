@@ -62,7 +62,7 @@ public class FilmService {
 			int tamPage = 15;
 			int totalPages = (films.size()/tamPage)+1;
 			int firstFilm = (currentPage-1)*tamPage;
-			int lastFilm = currentPage==totalPages ? ((currentPage-1)*tamPage)+films.size()%10 : (currentPage)*tamPage;
+			int lastFilm = currentPage==totalPages ? (firstFilm+(films.size()%tamPage)) : (currentPage)*tamPage;
 			FilmPagination filmPagination = new FilmPagination(totalPages, currentPage, films.subList(firstFilm, lastFilm));
 			return new ResponseEntity<>(filmPagination, HttpStatus.OK);
 		} catch (Exception e) {
