@@ -9,9 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.videoclub.controllers.CustomerController;
 import com.videoclub.entities.Address;
 import com.videoclub.entities.City;
@@ -52,35 +54,36 @@ public class CustomerService {
 		}
 	}
 	
+	/* Ejemplo de JSON
+	 {
+	    "storeId": 1,
+	    "firstName": "Jorge",
+	    "lastName": "Castillo",
+	    "email": "a@mail.com",
+	    "addressId": {
+	        "address": "Calle a",
+	        "address2": "Calle b",
+	        "district": "1",
+	        "cityId": {
+	            "city_id": 424
+	        },
+	        "postalCode": "12345",
+	        "phone": "123456789",
+	        "lastUpdate": null
+	    },
+	    "activebool": true,
+	    "createDate": null,
+	    "lastUpdate": null,
+	    "active": 1
+	}
+	 */
 	@Transactional
-	@PostMapping("/insertCustomer")
-	public ResponseEntity<Boolean> insertCustomer(@RequestParam String firstName, @RequestParam String lastName,
-			@RequestParam String email, @RequestParam String address1, @RequestParam String address2,
-			@RequestParam String district, @RequestParam String city, @RequestParam String postalCode, 
-			@RequestParam String phone) {
+	@PostMapping(path = "/insertCustomer", consumes = "application/json")
+	public ResponseEntity<Boolean> insertCustomerBody(@RequestBody Customer customer) {
 		try {
-			Address address = new Address();
-			address.setAddress(address1);
-			address.setAddress2(address2);
-			address.setDistrict(district);
-			int cityInt = Integer.parseInt(city);
-			
-			City cityObj = cityRepository.findByCityId(cityInt);
-			
-			address.setCityId(cityObj);
-			address.setPostalCode(postalCode);
-			address.setPhone(phone);
-			addressRepository.save(address);
-			
-			Customer customer = new Customer();
-			customer.setFirstName(firstName);
-			customer.setLastName(lastName);
-			customer.setEmail(email);
-			customer.setAddressId(address);
-			customer.setActive(1);
-			customer.setActivebool(true);
-			customer.setStoreId(1);
-			
+			City cityObj = cityRepository.findByCityId(customer.getAddressId().getCityId().getCity_id());
+			customer.getAddressId().setCityId(cityObj);
+			addressRepository.save(customer.getAddressId());
 			customerRepository.save(customer);
 			return new ResponseEntity<>(true, HttpStatus.OK);
 		} catch (Exception e) {
@@ -88,5 +91,4 @@ public class CustomerService {
 			return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
 }
