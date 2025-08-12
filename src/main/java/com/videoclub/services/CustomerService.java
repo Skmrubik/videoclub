@@ -55,32 +55,31 @@ public class CustomerService {
 	}
 	
 	/* Ejemplo de JSON
-	 {
-	    "storeId": 1,
-	    "firstName": "Jorge",
-	    "lastName": "Castillo",
-	    "email": "a@mail.com",
-	    "addressId": {
-	        "address": "Calle a",
-	        "address2": "Calle b",
-	        "district": "1",
-	        "cityId": {
-	            "city_id": 424
-	        },
-	        "postalCode": "12345",
-	        "phone": "123456789",
-	        "lastUpdate": null
-	    },
-	    "activebool": true,
-	    "createDate": null,
-	    "lastUpdate": null,
-	    "active": 1
-	}
-	 */
+		{
+		    "firstName": "Jorge",
+		    "lastName": "Castillo",
+		    "email": "a@mail.com",
+		    "addressId": {
+		        "address": "Calle a",
+		        "address2": "Calle b",
+		        "district": "1",
+		        "cityId": {
+		            "city_id": 424
+		        },
+		        "postalCode": "12345",
+		        "phone": "123456789"
+		    }
+		}
+	*/
 	@Transactional
 	@PostMapping(path = "/insertCustomer", consumes = "application/json")
 	public ResponseEntity<Boolean> insertCustomerBody(@RequestBody Customer customer) {
 		try {
+			//Atributos por defecto
+			customer.setActive(1);
+			customer.setActivebool(true);
+			customer.setStoreId(1);
+			//Guardado de objetos en BBDD
 			City cityObj = cityRepository.findByCityId(customer.getAddressId().getCityId().getCity_id());
 			customer.getAddressId().setCityId(cityObj);
 			addressRepository.save(customer.getAddressId());
