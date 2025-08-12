@@ -4,10 +4,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -16,9 +23,11 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "customer")
+@EntityListeners(AuditingEntityListener.class)
 public class Customer {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int customer_id;
 	
 	@Column(name = "store_id")
@@ -40,9 +49,11 @@ public class Customer {
 	@Column(name = "activebool")
 	private Boolean activebool;
 	
+	@CreatedDate
 	@Column(name = "create_date")
 	private Date createDate;
 	
+	@LastModifiedDate
 	@Column(name = "last_update")
 	private Date lastUpdate;
 	
