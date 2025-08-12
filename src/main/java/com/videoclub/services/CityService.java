@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.videoclub.dto.ValueLabel;
 import com.videoclub.entities.City;
 import com.videoclub.entities.Country;
 import com.videoclub.repositories.CityRepository;
@@ -44,6 +45,18 @@ public class CityService {
 			//List<City> city = cityRepository.findByCountryId(countryID);
 			List<City> city = countryObj.getCities();
 			return new ResponseEntity<>(city, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/listCitiesByCountryId")
+	public ResponseEntity<List<ValueLabel>> listCitiesByCountryId(@RequestParam String country) {
+		try {
+			int countryID = Integer.parseInt(country);
+			List<ValueLabel> cities = cityRepository.findByCountryId(countryID);
+			return new ResponseEntity<>(cities, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

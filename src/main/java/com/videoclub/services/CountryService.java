@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.videoclub.dto.ValueLabel;
 import com.videoclub.entities.Country;
 import com.videoclub.repositories.CountryRepository;
 
@@ -41,6 +42,18 @@ public class CountryService {
 		try {
 			Country countryObj = countryRepository.findByCountry(country);
 			return new ResponseEntity<>(countryObj, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/listCountriesFormatted")
+	public ResponseEntity<List<ValueLabel>> listCountriesFormatted() {
+		try {
+			List<ValueLabel> listCountries = new ArrayList<>();
+			listCountries = countryRepository.getAllCountriesFormatted();
+			return new ResponseEntity<>(listCountries, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

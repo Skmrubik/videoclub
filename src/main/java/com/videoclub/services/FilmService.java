@@ -59,7 +59,7 @@ public class FilmService {
 			FilmController filmC = new FilmController(filmRepository, em);
 			List<FilmCategory> films = filmC.filterFilmsSelect(min, max, catInt, actId);
 			int currentPage = Integer.parseInt(page);	
-			int tamPage = 15;
+			int tamPage = 12;
 			int totalPages = (films.size()/tamPage)+1;
 			int firstFilm = (currentPage-1)*tamPage;
 			int lastFilm = currentPage==totalPages ? (firstFilm+(films.size()%tamPage)) : (currentPage)*tamPage;
