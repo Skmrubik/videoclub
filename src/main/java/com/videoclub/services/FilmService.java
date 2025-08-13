@@ -60,9 +60,12 @@ public class FilmService {
 			List<FilmCategory> films = filmC.filterFilmsSelect(min, max, catInt, actId);
 			int currentPage = Integer.parseInt(page);	
 			int tamPage = 12;
-			int totalPages = (films.size()/tamPage)+1;
+			int tamLastPage = films.size()%tamPage;
+			int divFilmsTamPage = films.size()/tamPage;
+			int totalPages = tamLastPage == 0 ? divFilmsTamPage : divFilmsTamPage+1;			
 			int firstFilm = (currentPage-1)*tamPage;
-			int lastFilm = currentPage==totalPages ? (firstFilm+(films.size()%tamPage)) : (currentPage)*tamPage;
+			int lastPageTam = tamLastPage == 0 ? tamPage : tamLastPage;
+			int lastFilm = currentPage==totalPages ? (firstFilm+lastPageTam) : (currentPage)*tamPage;
 			FilmPagination filmPagination = new FilmPagination(totalPages, currentPage, films.subList(firstFilm, lastFilm));
 			return new ResponseEntity<>(filmPagination, HttpStatus.OK);
 		} catch (Exception e) {
