@@ -54,6 +54,18 @@ public class CustomerService {
 		}
 	}
 	
+	@GetMapping("/getCustomerById")
+	public ResponseEntity<Customer> getCustomerById(@RequestParam String idCustomer) {
+		try {
+			int id = Integer.parseInt(idCustomer);
+			Customer customer = customerRepository.getCustomerById(id);
+			return new ResponseEntity<>(customer, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	/* Ejemplo de JSON
 		{
 		    "firstName": "Jorge",

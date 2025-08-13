@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.videoclub.dto.RentalsPending;
 import com.videoclub.entities.Rental;
 import com.videoclub.repositories.RentalRepository;
 
@@ -24,6 +25,18 @@ public class RentalService {
 			List<Rental> listRentals = new ArrayList<>();
 			listRentals = rentalRepository.findAll();
 			return new ResponseEntity<>(listRentals.subList(1, 10), HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/listRentalsPending")
+	public ResponseEntity<List<RentalsPending>> listRentalsPending() {
+		try {
+			List<RentalsPending> listRentals = new ArrayList<>();
+			listRentals = rentalRepository.rentalsPending();
+			return new ResponseEntity<>(listRentals, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
