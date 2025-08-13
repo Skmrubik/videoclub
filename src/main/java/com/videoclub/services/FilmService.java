@@ -50,21 +50,16 @@ public class FilmService {
 			int min = Integer.parseInt(minDuration);
 			int max = Integer.parseInt(maxDuration);
 			int catInt = Integer.parseInt(category);
-			int actId;
-			if (actorId == "") {
-				actId = 0;
-			} else {
-				actId = Integer.parseInt(actorId);
-			}
+			int actId = actorId == ""? 0 : Integer.parseInt(actorId);
+
 			FilmController filmC = new FilmController(filmRepository, em);
 			List<FilmCategory> films = filmC.filterFilmsSelect(min, max, catInt, actId);
 			int currentPage = Integer.parseInt(page);	
 			int tamPage = 12;
-			int tamLastPage = films.size()%tamPage;
-			int divFilmsTamPage = films.size()/tamPage;
-			int totalPages = tamLastPage == 0 ? divFilmsTamPage : divFilmsTamPage+1;			
+			int restoFilmsTamPage = films.size()%tamPage;
+			int totalPages = ((films.size()-1)/tamPage)+1;		
 			int firstFilm = (currentPage-1)*tamPage;
-			int lastPageTam = tamLastPage == 0 ? tamPage : tamLastPage;
+			int lastPageTam = restoFilmsTamPage == 0 ? tamPage : restoFilmsTamPage;
 			int lastFilm = currentPage==totalPages ? (firstFilm+lastPageTam) : (currentPage)*tamPage;
 			FilmPagination filmPagination = new FilmPagination(totalPages, currentPage, films.subList(firstFilm, lastFilm));
 			return new ResponseEntity<>(filmPagination, HttpStatus.OK);
