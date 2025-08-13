@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.videoclub.controllers.CustomerController;
+import com.videoclub.dto.ValueLabel;
 import com.videoclub.entities.Address;
 import com.videoclub.entities.City;
 import com.videoclub.entities.Customer;
@@ -47,6 +48,18 @@ public class CustomerService {
 		try {
 			List<Customer> listCustomer = new ArrayList<>();
 			listCustomer = customerRepository.findAll();
+			return new ResponseEntity<>(listCustomer, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/listCustomersFormatted")
+	public ResponseEntity<List<ValueLabel>> listCustomersFormatted() {
+		try {
+			List<ValueLabel> listCustomer = new ArrayList<>();
+			listCustomer = customerRepository.getAllCustomerFormatted();
 			return new ResponseEntity<>(listCustomer, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
