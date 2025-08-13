@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,6 +55,18 @@ public class RentalService {
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@DeleteMapping("/deleteRentalById")
+	public ResponseEntity deleteRentalById(@RequestParam String rentalId) {
+		try {
+			int id = Integer.parseInt(rentalId);
+			int resp = rentalRepository.deleteRentalById(id);
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			System.out.println(e);
+			return ResponseEntity.notFound().build();
 		}
 	}
 }
