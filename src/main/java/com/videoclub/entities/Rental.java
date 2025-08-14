@@ -1,10 +1,18 @@
 package com.videoclub.entities;
 
+import java.util.Calendar;
 import java.util.Date;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -13,11 +21,14 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "rental")
+@EntityListeners(AuditingEntityListener.class)
 public class Rental {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int rental_id;
 	
+	@CreatedDate
 	@Column(name = "rental_date")
 	private Date rentalDate;
 	
@@ -36,11 +47,13 @@ public class Rental {
 	@ManyToOne
 	private Staff staffId;
 	
+	@LastModifiedDate
 	@Column(name = "last_update")
 	private Date lastUpdate;
 
 	public Rental() {
 	}
+
 
 	public int getRental_id() {
 		return rental_id;

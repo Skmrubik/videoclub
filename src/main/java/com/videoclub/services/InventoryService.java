@@ -32,11 +32,11 @@ public class InventoryService {
 	}
 	
 	@GetMapping("/getAvailableFilms")
-	public ResponseEntity<Integer> getAvailableFilms(@RequestParam String filmId) {
+	public ResponseEntity<List<Integer>> getAvailableFilms(@RequestParam String filmId) {
 		try {
 			int id = Integer.parseInt(filmId);
-			Integer numAvailable = inventoryRepository.peliculasDisponibles(id);
-			return new ResponseEntity<>(numAvailable, HttpStatus.OK);
+			List<Integer> listFilmsAvailable = inventoryRepository.peliculasDisponibles(id);
+			return new ResponseEntity<>(listFilmsAvailable, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
