@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.videoclub.controllers.FilmController;
 import com.videoclub.dto.FilmCategoryDTO;
 import com.videoclub.dto.FilmPagination;
+import com.videoclub.dto.ValueLabel;
 import com.videoclub.entities.Film;
 import com.videoclub.entities.FilmCategory;
 import com.videoclub.repositories.FilmRepository;
@@ -43,17 +44,29 @@ public class FilmService {
 		}
 	}
 	
+	@GetMapping("/listFilmsFormatted")
+	public ResponseEntity<List<ValueLabel>> listFilmsFormatted() {
+		try {
+			List<ValueLabel> listFilms = filmRepository.listFilmsFormatted();
+			return new ResponseEntity<>(listFilms, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@GetMapping("/listFilmsFilter")
 	public ResponseEntity<FilmPagination> listFilms2(@RequestParam String minDuration, @RequestParam String maxDuration, 
-			@RequestParam String category, @RequestParam String actorId, @RequestParam String page) {
+			@RequestParam String category, @RequestParam String actorId, @RequestParam String filmId, @RequestParam String page) {
 		try {
 			int min = Integer.parseInt(minDuration);
 			int max = Integer.parseInt(maxDuration);
 			int catInt = Integer.parseInt(category);
 			int actId = actorId == ""? 0 : Integer.parseInt(actorId);
+			int fId = filmId == ""? 0 : Integer.parseInt(filmId);
 
 			FilmController filmC = new FilmController(filmRepository, em);
-			List<FilmCategory> films = filmC.filterFilmsSelect(min, max, catInt, actId);
+			List<FilmCategory> films = filmC.filterFilmsSelect(min, max, catInt, actId, fId);
 			int currentPage = Integer.parseInt(page);	
 			int tamPage = 12;
 			int restoFilmsTamPage = films.size()%tamPage;
@@ -61,8 +74,13 @@ public class FilmService {
 			int firstFilm = (currentPage-1)*tamPage;
 			int lastPageTam = restoFilmsTamPage == 0 ? tamPage : restoFilmsTamPage;
 			int lastFilm = currentPage==totalPages ? (firstFilm+lastPageTam) : (currentPage)*tamPage;
-			FilmPagination filmPagination = new FilmPagination(totalPages, currentPage, films.subList(firstFilm, lastFilm));
-			return new ResponseEntity<>(filmPagination, HttpStatus.OK);
+			if (films.isEmpty()) {
+				FilmPagination filmPagination = new FilmPagination(1, 1, new ArrayList<>());
+				return new ResponseEntity<>(filmPagination, HttpStatus.OK);
+			} else {
+				FilmPagination filmPagination = new FilmPagination(totalPages, currentPage, films.subList(firstFilm, lastFilm));
+				return new ResponseEntity<>(filmPagination, HttpStatus.OK);
+			}
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

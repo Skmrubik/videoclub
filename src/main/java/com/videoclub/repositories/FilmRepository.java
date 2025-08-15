@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.videoclub.dto.FilmCategoryDTO;
+import com.videoclub.dto.ValueLabel;
 import com.videoclub.entities.Film;
 
 import jakarta.persistence.Tuple;
@@ -20,4 +21,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
 			+ "from film f inner join film_category f_c on f.film_id = f_c.film_id \r\n"
 			+ "inner join category c on f_c.category_id = c.category_id", nativeQuery = true)
 	List<FilmCategoryDTO> joinCategories();
+	
+	@Query(value = "select f.film_id as value, f.title as label from film f", nativeQuery = true)
+	List<ValueLabel> listFilmsFormatted();
 }

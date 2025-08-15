@@ -44,7 +44,7 @@ public class FilmController {
 		return lista;
 	}
 	
-	public List<FilmCategory> filterFilmsSelect(int lowValue, int highValue, int category, int actorId) {
+	public List<FilmCategory> filterFilmsSelect(int lowValue, int highValue, int category, int actorId, int filmId) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<FilmCategory> criteriaQ = cb.createQuery(FilmCategory.class);
 		Root<FilmCategory> root = criteriaQ.from(FilmCategory.class);
@@ -53,6 +53,9 @@ public class FilmController {
 		
 		List<Predicate> predicates = new ArrayList<>();
 		predicates.add(cb.between(root.get("film_id").get("length"), Integer.valueOf(lowValue), Integer.valueOf(highValue)));
+		if (filmId != 0) {
+			predicates.add(cb.equal(root.get("film_id").get("film_id"), Integer.valueOf(filmId)));
+		}
 		if (category != 0) {
 			predicates.add(cb.equal(root.get("categoryId").get("category_id"), Integer.valueOf(category)));
 		}
