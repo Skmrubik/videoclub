@@ -116,4 +116,19 @@ public class RentalService {
 			return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@Transactional
+	@PostMapping(path = "/returnRental", consumes = "application/json")
+	public ResponseEntity<Boolean> returnRental(@RequestParam String rentalId) {
+		try {
+			Rental rental =rentalRepository.getRentalById(Integer.parseInt(rentalId));
+			Date date = new Date();
+	        rental.setReturnDate(date);
+			rentalRepository.save(rental);
+			return new ResponseEntity<>(true, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

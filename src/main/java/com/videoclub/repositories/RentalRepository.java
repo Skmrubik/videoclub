@@ -33,4 +33,8 @@ public interface RentalRepository extends JpaRepository<Rental, Integer>{
 	@Transactional
 	@Query(value = "delete from payment r where r.rental_id = ?1; delete from rental r where r.rental_id = ?1", nativeQuery=true)
 	int deleteRentalById(Integer rentalId);
+	
+	@Query(value = "select * from rental r where r.rental_id = ?1", nativeQuery=true)
+	Rental getRentalById(Integer rentalId);
+	
 }
